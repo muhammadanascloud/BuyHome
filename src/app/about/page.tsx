@@ -4,8 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { motion, useAnimation, useInView } from "framer-motion";
 import Image from "next/image";
 import { Home, Eye, Quote } from "lucide-react";
-import MapWithMarkers from "../../components/MapWithMarkers";
-import Link from "next/link";
+import MapWithMarkers from '@/components/MapWithMarkers';  
 
 type Review = {
   name: string;
