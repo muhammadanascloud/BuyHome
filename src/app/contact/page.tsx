@@ -1,85 +1,57 @@
-'use client';
+// Import necessary hooks from React
+import { useEffect } from 'react';  // <-- Add this import
 
-import { useState, FormEvent } from 'react';
+// Import other necessary types or components (update this based on your actual project setup)
 
-export default function ContactPage() {
-  const [name, setName] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-  const [message, setMessage] = useState<string>('');
-  const [successMessage, setSuccessMessage] = useState<string>('');
+// Define the type for DiffConfig
+type DiffConfig = {
+  // Add relevant properties for your DiffConfig here if needed
+};
 
-  // Handle form submission with validation
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+// Example type definition for OmitWithTag if you haven't defined it elsewhere
+type OmitWithTag<T> = {
+  default: () => void;
+  config: Partial<T>; // Assume config can have partial properties from DiffConfig
+  generateStaticParams: () => void;
+};
 
-    // Simple validation to check if all fields are filled out
-    if (!name || !email || !message) {
-      setSuccessMessage('Please fill out all fields.');
-      return;
-    }
+// This is your checkFields configuration using OmitWithTag
+const checkFields: OmitWithTag<DiffConfig> = {
+  default: () => {
+    console.log("Default field check");
+  },
+  config: {}, // Empty config for now, you can add necessary configurations
+  generateStaticParams: () => {
+    console.log("Static Params generated");
+  },
+};
 
-    // Simulate form submission success
-    setSuccessMessage('Your message has been sent!');
-    setName('');
-    setEmail('');
-    setMessage('');
-  };
+// Example usage in the component or function
+const executeFieldCheck = () => {
+  // Call the default field check
+  checkFields.default();
+
+  // Optionally use generateStaticParams if required
+  checkFields.generateStaticParams();
+
+  // You can also access the config if needed
+  console.log('Config:', checkFields.config);
+};
+
+// Example function demonstrating how this might fit into a page/component logic
+export default function MyPage() {
+  // Simulating page or component logic that might involve checkFields
+  useEffect(() => {
+    // Automatically run field check when the component mounts
+    executeFieldCheck();
+  }, []);
 
   return (
-    <div className="min-h-screen flex items-start justify-center bg-black text-white px-4 mt-24 md:mt-32">
-      <div className="w-full max-w-lg bg-gray-900 p-8 rounded-lg shadow-lg mt-4 md:mt-8">
-        <h1 className="text-5xl md:text-6xl font-heading text-heading mb-8 text-center">
-          <span className="text-white">Contact</span> <span className="text-blue-500">Us</span>
-        </h1>
-
-        {/* Success message display */}
-        {successMessage && <p className="text-center text-green-500 mb-4">{successMessage}</p>}
-
-        {/* Contact form */}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-text mb-2">Your Name</label>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Enter your name"
-              className="w-full px-4 py-2 rounded-lg border text-black outline-none focus:ring-2 focus:ring-accent"
-            />
-          </div>
-
-          <div>
-            <label className="block text-text mb-2">Your Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-              className="w-full px-4 py-2 rounded-lg border text-black outline-none focus:ring-2 focus:ring-accent"
-            />
-          </div>
-
-          <div>
-            <label className="block text-text mb-2">Your Message</label>
-            <textarea
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="Enter your message"
-              rows={5}
-              className="w-full px-4 py-2 rounded-lg border text-black outline-none focus:ring-2 focus:ring-accent"
-            />
-          </div>
-
-          <div>
-            <button
-              type="submit"
-              className="bg-gradient-to-r from-blue-400 to-blue-600 text-white py-3 px-6 rounded-lg font-bold hover:from-blue-300 hover:to-blue-500 transition-all duration-300 w-full"
-            >
-              Send Message
-            </button>
-          </div>
-        </form>
-      </div>
+    <div>
+      <h1>Check Fields Page</h1>
+      <p>This page checks and logs default field values.</p>
+      <button onClick={checkFields.default}>Run Default Field Check</button>
+      <button onClick={checkFields.generateStaticParams}>Generate Static Params</button>
     </div>
   );
 }

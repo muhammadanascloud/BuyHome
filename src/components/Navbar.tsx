@@ -6,69 +6,38 @@ import { usePathname } from 'next/navigation';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
   const pathname = usePathname();
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const handleScroll = () => {
-        if (window.innerWidth >= 768) {
-          if (window.scrollY > lastScrollY) {
-            setIsVisible(false);
-          } else {
-            setIsVisible(true);
-          }
-          setLastScrollY(window.scrollY);
-        }
-      };
+    const handleScroll = () => {
+      if (window.scrollY > lastScrollY) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+      setLastScrollY(window.scrollY);
+    };
 
-      window.addEventListener('scroll', handleScroll);
-      return () => {
-        window.removeEventListener('scroll', handleScroll);
-      };
-    }
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, [lastScrollY]);
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const navbar = document.getElementById('navbar');
-      if (window.innerWidth >= 768 && navbar) {
-        navbar.addEventListener('mouseenter', () => setIsVisible(true));
-        navbar.addEventListener('mouseleave', () => setIsVisible(false));
-      }
-
-      return () => {
-        if (navbar) {
-          navbar.removeEventListener('mouseenter', () => setIsVisible(true));
-          navbar.removeEventListener('mouseleave', () => setIsVisible(false));
-        }
-      };
-    }
-  }, []);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
   const isActive = useMemo(
-    () => (path: string) => {
-      if (!isMounted) return '';
-      return pathname === path
-        ? 'bg-accent text-white px-4 py-2'
-        : 'text-white px-4 py-2 transition-colors hover:text-blue-300';
-    },
-    [isMounted, pathname]
+    () => (path: string) => pathname === path
+      ? 'bg-accent text-white px-4 py-2'
+      : 'text-white px-4 py-2 transition-colors hover:text-blue-300',
+    [pathname]
   );
 
   return (
     <nav
       id="navbar"
-      className={`fixed top-0 left-0 w-full z-50 bg-transparent text-white transition-transform duration-500 ${
-        isVisible ? 'translate-y-0' : '-translate-y-full'
-      }`}
+      className={`fixed top-0 left-0 w-full z-50 bg-transparent text-white transition-transform duration-500 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
