@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { useState, useEffect, useRef } from "react";
-import { motion, useAnimation, useInView } from "framer-motion";
-import Image from "next/image";
-import { Home, Eye, Quote } from "lucide-react";
-import MapWithMarkers from '@/components/MapWithMarkers';  
+import { useState, useEffect, useRef } from 'react';
+import { motion, useAnimation, useInView } from 'framer-motion';
+import Image from 'next/image';
+import { Home, Eye, Quote } from 'lucide-react';
+import MapWithMarkers from '@/components/MapWithMarkers';
 
 type Review = {
   name: string;
@@ -16,32 +16,32 @@ type Review = {
 
 const reviews: Review[] = [
   {
-    name: "John Doe",
-    avatar: "/images/reviews/1.jpeg",
+    name: 'John Doe',
+    avatar: '/images/reviews/1.jpeg',
     rating: 5,
-    comment: "Amazing service! Highly recommended.",
-    role: "Parent",
+    comment: 'Amazing service! Highly recommended.',
+    role: 'Parent',
   },
   {
-    name: "Jane Smith",
-    avatar: "/images/reviews/2.jpeg",
+    name: 'Jane Smith',
+    avatar: '/images/reviews/2.jpeg',
     rating: 4,
-    comment: "Good experience, will come back for sure.",
-    role: "Developer",
+    comment: 'Good experience, will come back for sure.',
+    role: 'Developer',
   },
   {
-    name: "Sam Wilson",
-    avatar: "/images/reviews/3.jpeg",
+    name: 'Sam Wilson',
+    avatar: '/images/reviews/3.jpeg',
     rating: 5,
-    comment: "Outstanding customer service and quality work!",
-    role: "Manager",
+    comment: 'Outstanding customer service and quality work!',
+    role: 'Manager',
   },
   {
-    name: "Emily Davis",
-    avatar: "/images/reviews/4.jpeg",
+    name: 'Emily Davis',
+    avatar: '/images/reviews/4.jpeg',
     rating: 4,
-    comment: "Very professional and helpful team. Great experience overall.",
-    role: "Designer",
+    comment: 'Very professional and helpful team. Great experience overall.',
+    role: 'Designer',
   },
 ];
 
@@ -56,9 +56,9 @@ const fadeInVariant = {
 };
 
 export default function AboutUs() {
-  const fullText = "Learn More About Our Vision";
+  const fullText = 'Learn More About Our Vision';
   const typingSpeed = 25;
-  const [typedText, setTypedText] = useState("");
+  const [typedText, setTypedText] = useState('');
 
   const missionVisionRef = useRef(null);
   const reviewsRef = useRef(null);
@@ -86,21 +86,21 @@ export default function AboutUs() {
 
   useEffect(() => {
     if (isMissionVisionInView) {
-      missionVisionControls.start("visible");
+      missionVisionControls.start('visible');
     } else {
-      missionVisionControls.start("hidden");
+      missionVisionControls.start('hidden');
     }
 
     if (isReviewsInView) {
-      reviewsControls.start("visible");
+      reviewsControls.start('visible');
     } else {
-      reviewsControls.start("hidden");
+      reviewsControls.start('hidden');
     }
 
     if (isMapInView) {
-      mapControls.start("visible");
+      mapControls.start('visible');
     } else {
-      mapControls.start("hidden");
+      mapControls.start('hidden');
     }
   }, [
     isMissionVisionInView,
@@ -151,15 +151,16 @@ export default function AboutUs() {
         transition={{ duration: 0.8 }}
       >
         <h2 className="text-4xl md:text-5xl font-bold mb-12">
-          Our{" "}
+          Our{' '}
           <span className="font-extrabold bg-gradient-to-r from-accent to-highlight text-transparent bg-clip-text">
             Mission
-          </span>{" "}
-          &{" "}
+          </span>{' '}
+          &{' '}
           <span className="font-extrabold bg-gradient-to-r from-accent to-highlight text-transparent bg-clip-text">
             Vision
           </span>
         </h2>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 max-w-5xl mx-auto">
           <motion.div
             className="bg-gray-900 p-8 rounded-lg shadow-lg transition-transform transform hover:scale-105"
@@ -167,7 +168,6 @@ export default function AboutUs() {
             initial="hidden"
             animate={missionVisionControls}
             transition={{ duration: 0.8, delay: 0.2 }}
-            data-aos="fade-in"
           >
             <div className="flex justify-center mb-6">
               <Home size={48} color="#38bdf8" />
@@ -195,7 +195,6 @@ export default function AboutUs() {
             initial="hidden"
             animate={missionVisionControls}
             transition={{ duration: 0.8, delay: 0.4 }}
-            data-aos="fade-in"
           >
             <div className="flex justify-center mb-6">
               <Eye size={48} color="#38bdf8" />
@@ -243,7 +242,7 @@ export default function AboutUs() {
             <motion.div
               key={index}
               className="bg-gray-900 bg-opacity-80 shadow-lg rounded-lg p-8 relative"
-              style={{ boxShadow: "0 0 20px rgba(56, 189, 248, 0.8)" }}
+              style={{ boxShadow: '0 0 20px rgba(56, 189, 248, 0.8)' }}
               variants={fadeInUpVariant}
               initial="hidden"
               animate={reviewsControls}

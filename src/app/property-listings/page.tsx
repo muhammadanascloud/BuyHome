@@ -1,47 +1,35 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import properties from "../../data/properties";
-import Link from "next/link";
-import Image from "next/image";
-import { Property } from "../../data/properties";
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import properties from '@/data/properties';
+import type { Property } from '@/data/properties';
 
-type ListingType = "All" | "For Sale" | "For Rent";
-type PropertyType = "All" | "Apartment" | "House" | "Villa" | "Commercial";
+type ListingType = 'All' | 'For Sale' | 'For Rent';
+type PropertyType = 'All' | 'Apartment' | 'House' | 'Villa' | 'Commercial';
 
 export default function PropertyListings() {
-  const headingClasses = `
-    text-3xl sm:text-4xl md:text-5xl 
-    sm:leading-snug md:leading-tight 
-    mb-4 md:mb-4 lg:mb-2 
-  `;
+  const headingClasses = `text-3xl sm:text-4xl md:text-5xl sm:leading-snug md:leading-tight mb-4 md:mb-4 lg:mb-2`;
+  const sectionClasses = `pt-20 sm:pt-24 md:pt-28 pb-6`;
 
-  const sectionClasses = `
-    pt-20 sm:pt-24 md:pt-28 
-    pb-6
-  `;
-
-  const [text, setText] = useState("");
-  const fullText = "Your Dream Home is just a Search away";
+  const [text, setText] = useState('');
+  const fullText = 'Your Dream Home is just a Search away';
   const typingSpeed = 40;
 
-  const [searchTerm, setSearchTerm] = useState<string>("");
-  const [selectedListingType, setSelectedListingType] =
-    useState<ListingType>("All");
-  const [selectedPropertyType, setSelectedPropertyType] =
-    useState<PropertyType>("All");
-  const [minPrice, setMinPrice] = useState<string>("");
-  const [maxPrice, setMaxPrice] = useState<string>("");
-  const [filteredProperties, setFilteredProperties] =
-    useState<Property[]>(properties);
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [selectedListingType, setSelectedListingType] = useState<ListingType>('All');
+  const [selectedPropertyType, setSelectedPropertyType] = useState<PropertyType>('All');
+  const [minPrice, setMinPrice] = useState<string>('');
+  const [maxPrice, setMaxPrice] = useState<string>('');
+  const [filteredProperties, setFilteredProperties] = useState<Property[]>(properties);
   const [currentPage, setCurrentPage] = useState(1);
   const propertiesPerPage = 6;
-  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
-  // Typing effect logic to simulate Hero section animation
+  // Typing effect for hero section
   useEffect(() => {
     let currentIndex = 0;
-
     const typeText = () => {
       if (currentIndex < fullText.length) {
         setText(fullText.slice(0, currentIndex + 1));
@@ -49,83 +37,56 @@ export default function PropertyListings() {
         setTimeout(typeText, typingSpeed);
       }
     };
-
     typeText();
   }, []);
 
-  const highlightText = (typedText: string): JSX.Element => {
-    const words: string[] = typedText.split(" ");
-
-    return (
-      <span>
-        {words.map((word: string, index: number) => {
-          if (word === "Home" || word === "Search") {
-            return (
-              <span
-                key={index}
-                className="inline-block font-bold bg-gradient-to-r from-accent to-highlight text-white px-2 py-1 mx-1"
-              >
-                {word}
-              </span>
-            );
-          }
-          return (
-            <span key={index} className="mx-1">
-              {word}
-            </span>
-          );
-        })}
-      </span>
-    );
-  };
-
+  // Handle search and filtering logic
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    // Basic price validation
     if (minPrice && parseInt(minPrice) <= 0) {
-      setErrorMessage("Please enter a valid minimum price.");
+      setErrorMessage('Please enter a valid minimum price.');
       return;
     }
 
     if (maxPrice && parseInt(maxPrice) <= 0) {
-      setErrorMessage("Please enter a valid maximum price.");
+      setErrorMessage('Please enter a valid maximum price.');
       return;
     }
 
     if (minPrice && maxPrice && parseInt(minPrice) > parseInt(maxPrice)) {
-      setErrorMessage("Minimum price should not exceed maximum price.");
+      setErrorMessage('Minimum price should not exceed maximum price.');
       return;
     }
 
-    setErrorMessage("");
+    setErrorMessage('');
 
+    // Filter properties based on search criteria
     const newFilteredProperties = properties.filter((property: Property) => {
       return (
         (property.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
           property.location.toLowerCase().includes(searchTerm.toLowerCase())) &&
-        (selectedListingType === "All" ||
-          property.listingType === selectedListingType) &&
-        (selectedPropertyType === "All" ||
-          property.title.includes(selectedPropertyType)) &&
+        (selectedListingType === 'All' || property.listingType === selectedListingType) &&
+        (selectedPropertyType === 'All' || property.title.includes(selectedPropertyType)) &&
         (!minPrice || property.price >= parseInt(minPrice)) &&
         (!maxPrice || property.price <= parseInt(maxPrice))
       );
     });
 
     setFilteredProperties(newFilteredProperties);
-    setCurrentPage(1);
+    setCurrentPage(1); // Reset pagination
   };
 
+  // Pagination logic
   const indexOfLastProperty = currentPage * propertiesPerPage;
   const indexOfFirstProperty = indexOfLastProperty - propertiesPerPage;
-  const currentProperties = filteredProperties.slice(
-    indexOfFirstProperty,
-    indexOfLastProperty
-  );
+  const currentProperties = filteredProperties.slice(indexOfFirstProperty, indexOfLastProperty);
   const totalPages = Math.ceil(filteredProperties.length / propertiesPerPage);
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
+  // Pagination buttons rendering
   const renderPagination = () => {
     const pageNumbers = [];
     let startPage = currentPage;
@@ -144,9 +105,7 @@ export default function PropertyListings() {
           key={i}
           onClick={() => paginate(i)}
           className={`px-3 py-2 rounded-lg ${
-            currentPage === i
-              ? "bg-accent text-heading"
-              : "bg-background text-text"
+            currentPage === i ? 'bg-accent text-heading' : 'bg-background text-text'
           } hover:bg-highlight transition-colors`}
         >
           {i}
@@ -168,9 +127,7 @@ export default function PropertyListings() {
           key={totalPages}
           onClick={() => paginate(totalPages)}
           className={`px-3 py-2 rounded-lg ${
-            currentPage === totalPages
-              ? "bg-accent text-heading"
-              : "bg-background text-text"
+            currentPage === totalPages ? 'bg-accent text-heading' : 'bg-background text-text'
           } hover:bg-highlight transition-colors`}
         >
           {totalPages}
@@ -185,14 +142,19 @@ export default function PropertyListings() {
     <div className="min-h-screen bg-black text-white font-body">
       <section className="pt-16 pb-2 sm:pb-4 text-center">
         <div className="max-w-7xl mx-auto">
-          <h1
-            className={`
-        text-3xl sm:text-4xl md:text-5xl 
-        sm:leading-snug md:leading-tight 
-        mb-6 md:mb-4 lg:mb-2 font-heading text-white
-      `}
-          >
-            {highlightText(text)}
+          <h1 className={headingClasses}>
+            {text.split(' ').map((word, index) => (
+              <span
+                key={index}
+                className={`${
+                  word === 'Home' || word === 'Search'
+                    ? 'font-bold bg-gradient-to-r from-accent to-highlight text-white px-2 py-1 mx-1'
+                    : 'mx-1'
+                }`}
+              >
+                {word}
+              </span>
+            ))}
           </h1>
         </div>
       </section>
@@ -215,9 +177,7 @@ export default function PropertyListings() {
               <div className="relative w-full md:w-auto">
                 <select
                   value={selectedListingType}
-                  onChange={(e) =>
-                    setSelectedListingType(e.target.value as ListingType)
-                  }
+                  onChange={(e) => setSelectedListingType(e.target.value as ListingType)}
                   className="w-full px-4 py-2 border rounded-none text-black outline-none bg-white"
                 >
                   <option value="All">All</option>
@@ -229,9 +189,7 @@ export default function PropertyListings() {
               <div className="relative w-full md:w-auto">
                 <select
                   value={selectedPropertyType}
-                  onChange={(e) =>
-                    setSelectedPropertyType(e.target.value as PropertyType)
-                  }
+                  onChange={(e) => setSelectedPropertyType(e.target.value as PropertyType)}
                   className="w-full px-4 py-2 border rounded-none text-black outline-none bg-white"
                 >
                   <option value="All">All Types</option>

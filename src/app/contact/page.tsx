@@ -1,25 +1,28 @@
-"use client";
+'use client';
 
-import { useState, FormEvent } from "react";
+import { useState, FormEvent } from 'react';
 
 export default function ContactPage() {
-  const [name, setName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [message, setMessage] = useState<string>("");
-  const [successMessage, setSuccessMessage] = useState<string>("");
+  const [name, setName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [message, setMessage] = useState<string>('');
+  const [successMessage, setSuccessMessage] = useState<string>('');
 
+  // Handle form submission with validation
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    // Simple validation to check if all fields are filled out
     if (!name || !email || !message) {
-      setSuccessMessage("Please fill out all fields.");
+      setSuccessMessage('Please fill out all fields.');
       return;
     }
 
-    setSuccessMessage("Your message has been sent!");
-    setName("");
-    setEmail("");
-    setMessage("");
+    // Simulate form submission success
+    setSuccessMessage('Your message has been sent!');
+    setName('');
+    setEmail('');
+    setMessage('');
   };
 
   return (
@@ -29,10 +32,10 @@ export default function ContactPage() {
           <span className="text-white">Contact</span> <span className="text-blue-500">Us</span>
         </h1>
 
-        {successMessage && (
-          <p className="text-center text-green-500 mb-4">{successMessage}</p>
-        )}
+        {/* Success message display */}
+        {successMessage && <p className="text-center text-green-500 mb-4">{successMessage}</p>}
 
+        {/* Contact form */}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-text mb-2">Your Name</label>
