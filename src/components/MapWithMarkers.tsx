@@ -1,4 +1,13 @@
-import { MapContainer, TileLayer, Marker } from 'react-leaflet';
+'use client';
+
+import { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
+
+// Dynamically import the MapContainer component to disable SSR
+const MapContainer = dynamic(() => import('react-leaflet').then(mod => mod.MapContainer), { ssr: false });
+const TileLayer = dynamic(() => import('react-leaflet').then(mod => mod.TileLayer), { ssr: false });
+const Marker = dynamic(() => import('react-leaflet').then(mod => mod.Marker), { ssr: false });
+
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
@@ -31,6 +40,17 @@ const locations = [
 
 // Map component with markers
 const MapWithMarkers = () => {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    // Only set this to true after the component has mounted
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return null; // Do not render anything during SSR
+  }
+
   return (
     <MapContainer
       center={[37.7749, -95.4194]}  // Center the map at a general US location
