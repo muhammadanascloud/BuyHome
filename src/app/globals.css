@@ -1,17 +1,21 @@
+/* Tailwind base, components, and utilities */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Import external styles */
+/* External CSS imports */
 @import "~slick-carousel/slick/slick.css";
 @import "~slick-carousel/slick/slick-theme.css";
 @import 'leaflet/dist/leaflet.css';
+@import 'aos/dist/aos.css';
 
-/* Root Variables */
+/* Root Variables for Custom Colors */
 :root {
-  --foreground-rgb: 236, 240, 241; 
-  --background-start-rgb: 0, 0, 0; 
-  --background-end-rgb: 43, 43, 43; 
+  --foreground-rgb: 236, 240, 241;
+  --background-start-rgb: 0, 0, 0;
+  --background-end-rgb: 43, 43, 43;
+  --highlight: #1d4ed8;
+  --highlightHover: #2563eb;
 }
 
 /* Adjust for Dark Mode */
@@ -23,10 +27,18 @@
   }
 }
 
+/* Global body styles */
+html, body {
+  @apply bg-black text-white;
+  height: 100%;
+  font-family: 'Inter', sans-serif; /* Ensure the Inter font is applied */
+}
+
 /* Custom Button Styling */
 button {
   background-color: var(--highlight);
-  color: var(--foreground-rgb);
+  color: rgb(var(--foreground-rgb));
+  border-radius: var(--radius);
   transition: background-color 0.3s ease-in-out;
 }
 
@@ -34,30 +46,7 @@ button:hover {
   background-color: var(--highlightHover);
 }
 
-/* Scroll Animation */
-@keyframes scroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
-}
-
-@layer utilities {
-  .animate-scroll {
-    animation: scroll 60s linear infinite; 
-  }
-}
-
-@layer base {
-  :root {
-    --radius: 0.5rem;
-  }
-}
-
-/* Global body styles */
-html, body {
-  @apply bg-black text-white;
-  height: 100%; 
+/* Footer Styles */
+footer {
+  @apply bg-gray-900 text-white py-6;
 }

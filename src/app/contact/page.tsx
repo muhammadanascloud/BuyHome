@@ -1,11 +1,12 @@
-// Import necessary hooks from React
-import { useEffect } from 'react';  // <-- Add this import
+'use client'; // Ensure this component is treated as a Client Component
 
-// Import other necessary types or components (update this based on your actual project setup)
+// Import necessary hooks from React
+import { useEffect } from 'react';  // <-- Import the useEffect hook
 
 // Define the type for DiffConfig
 type DiffConfig = {
-  // Add relevant properties for your DiffConfig here if needed
+  // Define relevant properties for your DiffConfig here if needed
+  // For example, fields like 'field1'?: string; 'field2'?: boolean;
 };
 
 // Example type definition for OmitWithTag if you haven't defined it elsewhere
@@ -26,7 +27,7 @@ const checkFields: OmitWithTag<DiffConfig> = {
   },
 };
 
-// Example usage in the component or function
+// Function to execute field check
 const executeFieldCheck = () => {
   // Call the default field check
   checkFields.default();
@@ -34,7 +35,7 @@ const executeFieldCheck = () => {
   // Optionally use generateStaticParams if required
   checkFields.generateStaticParams();
 
-  // You can also access the config if needed
+  // Log config if necessary
   console.log('Config:', checkFields.config);
 };
 
@@ -44,7 +45,7 @@ export default function MyPage() {
   useEffect(() => {
     // Automatically run field check when the component mounts
     executeFieldCheck();
-  }, []);
+  }, []); // Empty dependency array ensures it runs only once
 
   return (
     <div>

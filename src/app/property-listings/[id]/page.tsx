@@ -1,3 +1,4 @@
+// src/app/property-listings/page.tsx
 import Link from 'next/link';
 import Image from 'next/image';
 import properties from '@/data/properties';
@@ -27,7 +28,7 @@ export default function PropertyListings() {
                   width={400}
                   height={300}
                   className="w-full h-56 object-cover"
-                  priority // Ensure the images load quickly
+                  priority
                 />
                 <div className="p-6">
                   <h3 className="text-2xl font-heading text-white mb-2">
