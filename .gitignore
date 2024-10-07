@@ -16,6 +16,10 @@
 # production
 /build
 
+# ignore dist folders
+/dist
+**/dist/
+
 # misc
 .DS_Store
 *.pem
